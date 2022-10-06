@@ -20,7 +20,7 @@ abstract class BasePage<T extends BaseController> extends StatefulWidget {
   void dispose() {}
 
   Future<bool> onWillPop(BuildContext context, T controller) async {
-    return false;
+    return true;
   }
 
   void keyboardShowOrHide(bool show, double keyboardHeight) {}
