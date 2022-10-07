@@ -22,6 +22,7 @@ abstract class BasePage<T extends BaseController> extends StatefulWidget {
     return true;
   }
 
+  //observeKeyboard返回为true的时候才会调用这个方法
   void keyboardShowOrHide(bool show, double keyboardHeight) {}
 
   @override

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_project/public/controller/base_controller.dart';
-import 'package:flutter_project/public/widgets/base_loading_page.dart';
-import 'package:flutter_project/public/widgets/base_loading_status_page.dart';
-import 'package:flutter_project/public/widgets/base_page.dart';
-import 'package:flutter_project/public/widgets/lifecycle_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_project/configs/app_init.dart';
+import 'package:flutter_project/configs/router_manager.dart';
+import 'package:flutter_project/configs/theme_manager.dart';
+import 'package:flutter_project/public/widgets/custom_button.dart';
 
-void main() {
+void main() async {
+  await AppInit.init();
   runApp(const MyApp());
 }
 
@@ -20,8 +18,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       routes: {'/pageTwo': (_) => const PageTwo()},
+      builder: ThemeManager.setupTransitionBuilder(),
       home: const PageOne(),
-      builder: EasyLoading.init(),
     );
   }
 }
@@ -33,74 +31,56 @@ class PageOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PageOne'),
+        title: const Text('标题'),
       ),
       body: Center(
-        child: TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/pageTwo');
-            },
-            child: const Text('点击跳转')),
+        child: CustomButton(
+          width: 150,
+          height: 60,
+          onPressed: () {
+            Navigator.of(context).pushNamed('/pageTwo');
+          },
+          textColor: Colors.red,
+          textStyle: const TextStyle(fontSize: 30),
+          backgroundColor: Colors.green,
+          // elevation: 20,
+          // alignment: Alignment.centerRight,
+          // side: BorderSide(width: 3, color: Colors.blue),
+
+          allRadius: 30,
+          title: '按钮',
+          // borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
+          // child: const Text('这是按钮'),
+        ),
       ),
     );
   }
 }
 
-class DemoController extends BaseController {}
-
-class PageTwo extends BaseLoadingStatusPage<DemoController> {
+class PageTwo extends StatefulWidget {
   const PageTwo({Key? key}) : super(key: key);
 
   @override
-  DemoController create(BuildContext context) {
-    return DemoController();
-  }
+  State<PageTwo> createState() => _PageTwoState();
+}
 
+class _PageTwoState extends State<PageTwo> {
   @override
-  Future startLoadingData(BuildContext context, DemoController controller) {
-    return Future.delayed(const Duration(seconds: 5));
-  }
-
-  // @override
-  // Future<bool> onWillPop(
-  //     BuildContext context, DemoController controller) async {
-  //   final dialogResult = await showDialog<bool>(
-  //       context: context,
-  //       builder: (_) {
-  //         return AlertDialog(
-  //           title: const Text('确定要退出吗？'),
-  //           actions: [
-  //             TextButton(
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop(true);
-  //                 },
-  //                 child: const Text('确定')),
-  //             TextButton(
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop(false);
-  //                 },
-  //                 child: const Text('取消')),
-  //           ],
-  //         );
-  //       });
-  //   final result = dialogResult ?? false;
-  //   return result;
-  // }
-
-  @override
-  Widget buildWidget(BuildContext context, DemoController controller,
-      ConnectionState state, bool hasError, Object? error) {
-    if (state == ConnectionState.done) {
-      controller.hideLoading();
-    } else {
-      controller.startLoading();
-    }
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('PageTwo'),
       ),
       body: Center(
-        child: TextButton(onPressed: () {}, child: const Text('点击跳转')),
+        child: CustomButton(
+          title: 'PageTwo',
+          width: 150,
+          height: 60,
+          onPressed: () {},
+          textColor: Colors.red,
+          textStyle: const TextStyle(fontSize: 30),
+          backgroundColor: Colors.green,
+        ),
       ),
     );
   }

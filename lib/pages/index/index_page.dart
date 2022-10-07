@@ -7,8 +7,7 @@ class IndexPage extends BasePage<IndexController> {
 
   @override
   Widget build(BuildContext context, IndexController controller) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Container();
   }
 
   @override
